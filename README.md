@@ -4,23 +4,26 @@ This repo contains a web application that takes a text and creates an image or a
 
 ## How to use it
 
-There are some flags that can be used to customize the image that is produced.
+Three endpoints can be used:
 
-This is the flag list:
+1. /free: POST request transforming a text into a gif using the parameters passed in the JSON body
+2. /byBlink: GET request transforming a text into a blinking gif with blue background and yellow text
+3. /goCol: GET request transforming a text into a banner gif with light blue background and white text (Go's colors)
 
-- bgHex: this flag gets a string in the form of "0x" followed by 3 or 6 hexadecimal digits. The value is used to select the color of the background.
-- fgHex: this flag gets a string in the form of "0x" followed by 3 or 6 hexadecimal digits. The value is used to select the color of the text in the foreground.
-- h: this flag is just the height of the image. It's an integer.
-- l: this flag is just the width of the image. It's an integer.
-- o: name of the output image
-- fontPath: path for the font to use to draw the text in the foreground. It should be a path to a valid TrueType font.
-- fontSize: size of the font to use to draw the text in the foreground.
-- xPtFactor: this number is a factor used to determine the width of the character box for each character. It is used to adjust the alignment of each character of the ASCII art text drawn.
-- yPtFactor: this number is a factor used to determine the height of the character box for each character. It is used to adjust the alignment of each character of the ASCII art text drawn.
-- figlet: name of the figlet font: figlets are fonts used to convert text into ASCII art. See https://github.com/common-nighthawk/go-figure/tree/master/fonts for the possible values and http://www.figlet.org/examples.html to see examples of what are the effects of these fonts.
-- banner: if set to true it will produce a gif of a banner that shows the text sliding on the background, if false it will produce a png.
-- blink: if set to true it will produce a gif of the text blinking on the background, if false it will produce a png.
-- alt: if set to true it will produce a gif of the text blinking and switching colors with the background, if false it will produce a png.
-- delay: used with `banner`, `blink` or `alt`, it indicates the delay between each frame of the gif.
+All endpoints provide the text via a query parameter named `text`, for example: `curl localhost:8080/free?text=help -d '{"gifType":"alt"}'`
 
-These flags can be listed using the `--help` flag.
+The json body for the `/free` endpoint accepts the following inputs:
+
+```go
+struct {
+    Delay      int     `json:"delay"`
+    Figlet     string  `json:"figlet"`
+    FontSize   float64 `json:"fontSize"`
+    FontPath   string  `json:"fontPath"`
+    GifType    string  `json:"gifType"`
+    XPtFactor  float64 `json:"xPtF"`
+    YPtFactor  float64 `json:"yPtF"`
+    BgColorHex string  `json:"bgHex"`
+    FgColorHex string  `json:"fgHex"`
+}
+```
