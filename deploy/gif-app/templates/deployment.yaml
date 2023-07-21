@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gif-app.fullname" . }}
+  labels:
+    {{- include "gif-app.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "gif-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gif-app.selectorLabels" . | nindent 8 }}
+    spec:
+      shareProcessNamespace: true
+      containers:
+        - name: gif-app
+          image: kind-registry:5000/mcaci/gif-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add:
+              - SYS_PTRACE
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+          

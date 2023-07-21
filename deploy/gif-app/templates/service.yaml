@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gif-app.fullname" . }}
+  labels:
+    {{- include "gif-app.labels" . | nindent 4 }}
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: helm
+    - port: 8080
+      name: http
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    {{- include "gif-app.selectorLabels" . | nindent 4 }}
