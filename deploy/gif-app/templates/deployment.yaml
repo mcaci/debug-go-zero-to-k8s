@@ -17,7 +17,7 @@ spec:
       shareProcessNamespace: true
       containers:
         - name: gif-app
-          image: kind-registry:5000/mcaci/gif-app:latest
+          image: mcaci/gif-app
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -27,12 +27,4 @@ spec:
             capabilities:
               add:
               - SYS_PTRACE
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /readyz
-              port: http
           

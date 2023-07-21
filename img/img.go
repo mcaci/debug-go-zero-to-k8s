@@ -8,6 +8,7 @@ import (
 	"image/draw"
 	"image/gif"
 	"image/png"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -18,31 +19,6 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
-
-func Create(l, h int, text, bgColorHex, fgColorHex, figlet, fontPath string, fontSize, xPtFactor, yPtFactor float64, delay int, banner, blink, alt bool) {
-	asciiArtLines := ToAsciiArt(text, figlet)
-	lImg := Side(len(asciiArtLines[0]), 2*30, fontSize, xPtFactor, l)
-	hImg := Side(len(asciiArtLines), 2*30, fontSize, yPtFactor, h)
-	switch {
-	case banner:
-		images := NewBanner(asciiArtLines, lImg, hImg, bgColorHex, fgColorHex, fontPath, fontSize, xPtFactor, yPtFactor)
-		writeGif(images, OutFilename(text, "gif"), delay, 10)
-	case blink:
-		images := NewBlink(asciiArtLines, lImg, hImg, bgColorHex, fgColorHex, fontPath, fontSize, xPtFactor, yPtFactor)
-		writeGif(images, OutFilename(text, "gif"), delay, 75)
-	case alt:
-		images := NewAlt(asciiArtLines, lImg, hImg, bgColorHex, fgColorHex, fontPath, fontSize, xPtFactor, yPtFactor)
-		writeGif(images, OutFilename(text, "gif"), delay, 100)
-	default:
-		image := NewPng(asciiArtLines, lImg, hImg, bgColorHex, fgColorHex, fontPath, fontSize, xPtFactor, yPtFactor)
-		writePng(image, OutFilename(text, "png"))
-	}
-}
-
-func OutFilename(text, ext string) string {
-	text = cases.Title(language.English).String(text)
-	return "out/" + strings.Replace(text, " ", "", -1) + "." + ext
-}
 
 func NewBanner(asciiArtLines []string, l, h int, bgColorHex, fgColorHex, fontPath string, fontSize, xPtFactor, yPtFactor float64) []*image.Paletted {
 	d := int(float64(l) / fontSize)
@@ -120,40 +96,24 @@ func NewPng(asciiArtLines []string, l, h int, bgColorHex, fgColorHex, fontPath s
 	return img
 }
 
-func writeGif(images []*image.Paletted, path string, delay, defaultDelay int) {
-	if delay == 0 {
-		delay = defaultDelay
-	}
-	f := mustFile(path)
-	defer f.Close()
+func WriteGif(w io.Writer, images []*image.Paletted, delay int) error {
 	delays := make([]int, len(images))
 	for i := range delays {
 		delays[i] = delay
 	}
-	err := gif.EncodeAll(f, &gif.GIF{
+	return gif.EncodeAll(w, &gif.GIF{
 		Image: images,
 		Delay: delays,
 	})
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
-func writePng(image *image.Paletted, path string) {
-	f := mustFile(path)
-	defer f.Close()
-	err := png.Encode(f, image)
-	if err != nil {
-		log.Fatal(err)
-	}
+func WritePng(w io.Writer, image *image.Paletted) error {
+	return png.Encode(w, image)
 }
 
-func mustFile(name string) *os.File {
-	f, err := os.Create(name)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return f
+func OutFilename(text, ext string) string {
+	text = cases.Title(language.English).String(text)
+	return strings.Replace(text, " ", "", -1) + "." + ext
 }
 
 func ToAsciiArt(text, figlet string) []string {

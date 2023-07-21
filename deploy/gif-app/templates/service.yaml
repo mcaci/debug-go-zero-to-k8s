@@ -7,10 +7,6 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: http
-      protocol: TCP
-      name: helm
     - port: 8080
       name: http
       protocol: TCP
