@@ -1,8 +1,8 @@
-FROM golang:1.10.0-alpine
+FROM golang:1.20.0-alpine
 
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
-COPY . /source
+ENV APP_PATH=/home/mcaci/go/src/github.com/mcaci/debug-go-zero-to-k8s/
+COPY . $APP_PATH
 
 ENTRYPOINT ["sh"]
-# go/bin/dlv attach $PID

@@ -23,8 +23,3 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-          securityContext:
-            capabilities:
-              add:
-              - SYS_PTRACE
-          

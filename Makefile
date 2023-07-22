@@ -21,6 +21,15 @@ docker-push:
 	docker build -f deploy/docker/Dockerfile -t mcaci/gif-app .
 	docker push mcaci/gif-app
 
+docker-push-debug:
+	docker build -f deploy/docker/debug.Dockerfile -t mcaci/gif-app:debug .
+	docker push mcaci/gif-app:debug
+
+docker-debug:
+	docker ps -f name=gif-app
+	docker images mcaci/gif-app
+	docker run -it --rm --cap-add=SYS_PTRACE --pid="container:gif-app" mcaci/gif-app:debug 
+
 docker-up:
 	docker run -it --detach --rm -p 8080:8080 --name gif-app mcaci/gif-app:latest
 
