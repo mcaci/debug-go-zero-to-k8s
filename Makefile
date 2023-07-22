@@ -38,8 +38,6 @@ docker-down:
 
 # Kubernetes
 
-spin-cluster: cluster-up app-install
-
 cluster-up:
 	sh ./deploy/kind/setup.sh
 	helm install metallb metallb/metallb
@@ -56,7 +54,15 @@ app-uninstall:
 app-upgrade:
 	helm upgrade gif-app ./deploy/gif-app
 
-port-forward:
-	kubectl port-forward service/gif-app 8080:8080
+curl-hello-k8s:
+	curl -v -JLO ${IP}:8080/goCol?text=Hello,+We+Are+Devs
 
-restart: app-uninstall build docker-push app-install
+curl-jeans-k8s:
+	curl -v -JLO ${IP}:8080/byBlink?text=Gopher+Jeans
+
+curl-complex-k8s:
+	curl -v -JLO ${IP}:8080/free?text=We+Are+Dev+World+Congress -d '{"delay":150, "figlet":"speed", "gifType":"alt","bgHex":"0x030303", "fgHex":"0x78C475"}'
+
+app-debug-k8s:
+	kubectl debug ${POD} -it --image mcaci/gif-app:debug --profile=general --target=gif-app
+	
