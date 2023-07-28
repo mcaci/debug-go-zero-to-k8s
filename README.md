@@ -7,7 +7,7 @@ This repo contains a web application that takes a text and creates an image or a
 Here are the steps to reproduce the steps to debug this application as seen in the slides. 
 The slides are located at:
 
-- [INSERT SLIDES LINK AFTER TALK]().
+- Here are the [slides](https://docs.google.com/presentation/d/1rr2giYpo9XfnjfccaVf8vjsxjdgs83ME_ZtrzYiiSIs) that have been presented at WeAreDevs World Congress 2023.
 
 ### In your local environment
 
