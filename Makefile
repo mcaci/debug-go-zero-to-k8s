@@ -41,6 +41,7 @@ docker-down:
 cluster-up:
 	sh ./deploy/kind/setup.sh
 	helm install metallb metallb/metallb
+	kubectl wait deployment.apps/metallb-controller --for=condition=ready --timeout=5m
 
 cluster-down:
 	kind delete cluster --name go-debug-cluster

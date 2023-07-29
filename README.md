@@ -5,9 +5,10 @@ This repo contains a web application that takes a text and creates an image or a
 ## How to start a debugging session on this application
 
 Here are the steps to reproduce the steps to debug this application as seen in the slides. 
-The slides are located at:
+The slides are located at the following points:
 
-- Here are the [slides](https://docs.google.com/presentation/d/1rr2giYpo9XfnjfccaVf8vjsxjdgs83ME_ZtrzYiiSIs) that have been presented at WeAreDevs World Congress 2023.
+- [Here](https://docs.google.com/presentation/d/1rr2giYpo9XfnjfccaVf8vjsxjdgs83ME_ZtrzYiiSIs) for the slides presented at WeAreDevs World Congress 2023.
+<!-- - [ADD MORE WHEN OTHER CONFERENCES ARE OVER]() -->
 
 ### In your local environment
 
@@ -39,16 +40,16 @@ The debugger is started at this point. You can follow the same steps of debuggin
 
 ### Inside the kubernetes cluster
 
-The cluster is a `KinD` cluster, you need to download `kind`. Also you'll need to download `helm` for installing all the needed resources in the cluster. 
+The cluster is a `KinD` cluster, you need to download `kind`. Also you'll need to download `helm` for installing all the needed resources in the cluster.
 
 1. Run `make cluster-up` to start the cluster
 2. Run `make app-install` to install the application in the cluster
-3. Run `make app-debug-k8s` to start the debugger container via the ephemeral container and open a shell
+3. Run `make app-debug-k8s POD=$POD` to start the debugger container via the ephemeral container and open a shell. $POD should be replaced with the name of the pod to debug
 4. Run `ps` inside this shell
 5. Take the value of the PID of the application (gif-app)
 6. Run `dlv attach` with the PID taken from the step 6
 
-The debugger is started at this point. You can follow the same steps of debugging in the local environment except run `make curl-jeans-k8s IP=$IP`. Take the value for $IP by running `kubectl get service`
+The debugger is started at this point. You can follow the same steps of debugging in the local environment except run `make curl-jeans-k8s IP=$IP`; $IP should be replaced with the external IP of the service _gif-app_ that you can get with `kubectl get service gif-app`
 
 If there are issues with the installation of the metallb installation, run `docker inspect network kind` and update the first two parts of the ip address pool in the file `deploy\gif-app\templates\loadbalancer.yaml` and restart with `make app-uninstall app-install` and then from step 3 on.
 

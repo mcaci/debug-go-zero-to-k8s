@@ -16,7 +16,7 @@ func main() {
 	http.Handle("/byBlink", gate.Get(&handler.BlinkBnY{}))
 	http.Handle("/free", gate.Post(&handler.FreeStyle{}))
 	http.Handle("/goCol", gate.Get(&handler.GoColorBanner{}))
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusOK) })
+	http.HandleFunc("/ping", func(http.ResponseWriter, *http.Request) {})
 
 	log.Println("listenning on port 8080")
 	log.Println("available endpoints: /byBlink, /free, /goCol, /ping")
