@@ -13,9 +13,9 @@ func main() {
 	log.Printf("Go Version: %s", runtime.Version())
 	log.Printf("Go OS/Arch: %s/%s", runtime.GOOS, runtime.GOARCH)
 
-	http.Handle("/byBlink", gate.Get(&handler.BlinkBnY{}))
-	http.Handle("/free", gate.Post(&handler.FreeStyle{}))
-	http.Handle("/goCol", gate.Get(&handler.GoColorBanner{}))
+	http.Handle("/byBlink", gate.Get(http.HandlerFunc(handler.BlinkBnY)))
+	http.Handle("/free", gate.Post(http.HandlerFunc(handler.FreeStyle)))
+	http.Handle("/goCol", gate.Get(http.HandlerFunc(handler.GoColorBanner)))
 	http.HandleFunc("/ping", func(http.ResponseWriter, *http.Request) {})
 
 	log.Println("listenning on port 8080")

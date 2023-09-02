@@ -1,3 +1,4 @@
 service:
-  type: LoadBalancer
-  port: 80
+  port: 8080
+  targetPort: 8080
+probe: false

@@ -47,7 +47,7 @@ The cluster is a `KinD` cluster, you need to download `kind`. Also you'll need t
 3. Run `make app-debug-k8s POD=$POD` to start the debugger container via the ephemeral container and open a shell. $POD should be replaced with the name of the pod to debug
 4. Run `ps` inside this shell
 5. Take the value of the PID of the application (gif-app)
-6. Run `dlv attach` with the PID taken from the step 6
+6. Run `dlv attach` with the PID taken from the step 5
 
 The debugger is started at this point. You can follow the same steps of debugging in the local environment except run `make curl-jeans-k8s IP=$IP`; $IP should be replaced with the external IP of the service _gif-app_ that you can get with `kubectl get service gif-app`
 
@@ -80,3 +80,8 @@ struct {
     FgColorHex string  `json:"fgHex"`
 }
 ```
+
+## Few final notes
+
+1. Breakpoints can be set in delve before starting it. See <https://github.com/go-delve/delve/discussions/3189>
+2. When the debugger stops at a breakpoint it halts all the goroutines. In a kubernetes environment when working with probes, e.g. liveness and readiness probe, this is harmful because in the case of the liveness probe as it will not get any response it will cause the restart of the pod and end the current debugging session. This can be overcome with the copy of the pod (see Makefile's `app-debug-k8s-copy` for the how to create a copy of the pod with kubectl debug), but the copy of the pod has no label and receives no traffic to be debugged. See <https://github.com/kubernetes/kubectl/issues/1108> for more information.

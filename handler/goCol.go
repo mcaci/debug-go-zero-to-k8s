@@ -6,9 +6,7 @@ import (
 	"github.com/mcaci/debug-go-zero-to-k8s/img"
 )
 
-type GoColorBanner struct{}
-
-func (*GoColorBanner) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func GoColorBanner(w http.ResponseWriter, r *http.Request) {
 	const (
 		delay      = 10
 		figlet     = "doh"

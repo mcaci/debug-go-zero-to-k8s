@@ -9,9 +9,7 @@ import (
 	"github.com/mcaci/debug-go-zero-to-k8s/img"
 )
 
-type FreeStyle struct{}
-
-func (*FreeStyle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func FreeStyle(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	body, err := io.ReadAll(r.Body)
 	if err != nil {

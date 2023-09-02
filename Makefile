@@ -56,14 +56,17 @@ app-upgrade:
 	helm upgrade gif-app ./deploy/gif-app
 
 curl-hello-k8s:
-	curl -v -JLO ${IP}:8080/goCol?text=Hello,+We+Are+Devs
+	curl -v -JLO ${IP}:8080/goCol?text=Hello,+Gophers
 
 curl-jeans-k8s:
 	curl -v -JLO ${IP}:8080/byBlink?text=Gopher+Jeans
 
 curl-complex-k8s:
-	curl -v -JLO ${IP}:8080/free?text=We+Are+Dev+World+Congress -d '{"delay":150, "figlet":"speed", "gifType":"alt","bgHex":"0x030303", "fgHex":"0x78C475"}'
+	curl -v -JLO ${IP}:8080/free?text=Container+Days -d '{"delay":150, "figlet":"speed", "gifType":"alt","bgHex":"0x030303", "fgHex":"0x78C475"}'
 
 app-debug-k8s:
 	kubectl debug ${POD} -it --image mcaci/gif-app:debug --profile=general --target=gif-app
+
+app-debug-k8s-copy:
+	kubectl debug ${POD} -it --image mcaci/gif-app:debug --profile=general --share-processes --copy-to=gif-app-debug
 	

@@ -7,9 +7,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: {{ .Values.service.port }}
       name: http
       protocol: TCP
-      targetPort: 8080
+      targetPort: {{ .Values.service.targetPort }}
   selector:
     {{- include "gif-app.selectorLabels" . | nindent 4 }}

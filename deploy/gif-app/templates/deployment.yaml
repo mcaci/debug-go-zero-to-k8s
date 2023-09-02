@@ -22,7 +22,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          {{- if .Values.probe }}
           livenessProbe:
             httpGet:
-              path: /healthz
+              path: /ping
               port: http
+          {{- end }}

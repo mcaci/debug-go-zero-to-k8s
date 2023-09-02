@@ -6,9 +6,7 @@ import (
 	"github.com/mcaci/debug-go-zero-to-k8s/img"
 )
 
-type BlinkBnY struct{}
-
-func (*BlinkBnY) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func BlinkBnY(w http.ResponseWriter, r *http.Request) {
 	const (
 		delay      = 100
 		figlet     = "doh"
