@@ -8,7 +8,7 @@ Here are the steps to reproduce the steps to debug this application as seen in t
 The slides are located at the following points:
 
 - [Here](https://docs.google.com/presentation/d/1rr2giYpo9XfnjfccaVf8vjsxjdgs83ME_ZtrzYiiSIs) for the slides presented at WeAreDevs World Congress 2023.
-<!-- - [ADD MORE WHEN OTHER CONFERENCES ARE OVER]() -->
+- [Here](https://docs.google.com/presentation/d/1wzF9MPisfZWi16sRiSt1CwkTbLScNhAEKe-g39zRubM) for the slides presented at ContainerDays 2023
 
 ### In your local environment
 
